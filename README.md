@@ -34,8 +34,6 @@ This repository contains a C++17 application that exposes contract functionality
 │  ├─ blockchain/        # Block/ledger utilities
 │  ├─ config/            # Configuration helpers
 │  └─ main.cpp           # Entry point
-├─ build/                # Generated object files and intermediates (ignored)
-└─ econtract_api         # Built binary (should not be committed)
 ```
 
 ## Build requirements
