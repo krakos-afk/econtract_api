@@ -155,9 +155,15 @@ public:
                 auto conn = std::make_shared<pqxx::connection>(conn_str);
                 db_connections.push_back(conn);
                 initialize_schema(conn);
+                std::cout << "Connected to database: " << conn_str << std::endl;
             } catch (const std::exception& e) {
                 std::cerr << "Database connection error: " << e.what() << std::endl;
+                throw;
             }
+        }
+        
+        if (db_connections.empty()) {
+            throw std::runtime_error("No database connections established");
         }
     }
 
@@ -432,10 +438,11 @@ public:
 // ==================== MAIN ====================
 int main() {
     // Configure multiple database connections for distributed storage
+    // Update with your PostgreSQL credentials
     std::vector<std::string> db_connections = {
-        "postgresql://user:password@localhost:5432/contracts_node1",
-        "postgresql://user:password@localhost:5433/contracts_node2",
-        "postgresql://user:password@localhost:5434/contracts_node3"
+        "postgresql://contractuser:secure_password@localhost:5432/contracts_node1",
+        "postgresql://contractuser:secure_password@localhost:5432/contracts_node2",
+        "postgresql://contractuser:secure_password@localhost:5432/contracts_node3"
     };
 
     try {
