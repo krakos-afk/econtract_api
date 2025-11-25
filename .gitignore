@@ -1,31 +1,33 @@
-# Build output
-econtract_api
-build/
+.gitignore
 
-# Object files
-*.o
-*.obj
+# Node modules
+node_modules/
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Python bytecode
+*.py[cod]
 
-# Editor/IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS generated
-.DS_Store
-Thumbs.db
-
-# Core dumps
-core
-*.core
-
-# Logs
-*.log
+# Distribution / packaging
+dist/
+out/
+release/
+target/
+*.tar.gz
+*.zip
+*.so
+*.dll
+*.dylib
+*.a
+*.exe
+*.orig
+*.pyo
+*.pyd
+junit/
+reports/
+htmlcov/
+.cache/
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+*.egg
+*.whl
+*.pid
