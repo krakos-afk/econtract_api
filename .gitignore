@@ -1,33 +1,75 @@
-.gitignore
-
-# Node modules
-node_modules/
-
-# Python bytecode
-*.py[cod]
-
-# Distribution / packaging
+# Build output
+econtract_api
+build/
 dist/
 out/
 release/
 target/
 *.tar.gz
 *.zip
+
+# Object / binary files
+*.o
+*.obj
 *.so
 *.dll
 *.dylib
 *.a
 *.exe
+
+# Debug symbols
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 *.orig
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Core dumps
+core
+*.core
+
+# Logs
+*.log
+
+# Dependencies / environments
+node_modules/
+venv/
+.env
+.env.*
+__pycache__/
+*.pyc
 *.pyo
 *.pyd
+
+# Coverage / reports
+coverage/
+.coverage
 junit/
 reports/
 htmlcov/
+
+# Temporary / cache
+*.tmp
+.tmp/
 .cache/
 .mypy_cache/
 .pytest_cache/
+
+# Packaging / wheels
 *.egg-info/
 *.egg
 *.whl
+
+# Docker / runtime
 *.pid
