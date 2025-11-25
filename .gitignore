@@ -1,0 +1,31 @@
+# Build output
+econtract_api
+build/
+
+# Object files
+*.o
+*.obj
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Core dumps
+core
+*.core
+
+# Logs
+*.log
