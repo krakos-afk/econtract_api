@@ -1,9 +1,6 @@
-cd ~/econtract-api
-
-cat > Makefile << 'EOF'
 CXX = g++
-CXXFLAGS = -std=c++17 -O3 -Wall -Wextra -DCROW_ENABLE_SSL
-INCLUDES = -I/usr/include/pqxx -I/usr/include/postgresql -I/usr/include -I/usr/local/include
+CXXFLAGS = -std=c++17 -O2 -Wall -Wextra -Wno-deprecated-declarations
+INCLUDES = -I/usr/include -I/usr/local/include
 LIBS = -lssl -lcrypto -lpqxx -lpq -lpthread
 
 TARGET = econtract_api
@@ -21,4 +18,3 @@ run: $(TARGET)
 	./$(TARGET)
 
 .PHONY: all clean run
-EOF

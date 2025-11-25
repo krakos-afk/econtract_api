@@ -1,6 +1,8 @@
 // E-Contracts Blockchain API - Complete Implementation
-// Dependencies: libcurl, openssl, postgresql (libpq), crow (or cpp-httplib)
+// Dependencies: openssl, postgresql (libpq), libpqxx, crow
 
+// Standard library headers (must come first)
+#include <array>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,12 +10,22 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <cstdlib>
+
+// OpenSSL
 #include <openssl/evp.h>
 #include <openssl/rand.h>
-#include <openssl/sha.h>
-#include <pqxx/pqxx>
-#include "crow_all.h" // Crow web framework
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+
+// JSON library (before pqxx to avoid conflicts)
 #include <nlohmann/json.hpp>
+
+// Modern libpqxx includes
+#include <pqxx/pqxx>
+
+// Crow framework
+#include <crow.h>
 
 using json = nlohmann::json;
 
@@ -68,15 +80,19 @@ public:
     }
 
     static std::string sha256(const std::string& data) {
-        unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256_CTX sha256;
-        SHA256_Init(&sha256);
-        SHA256_Update(&sha256, data.c_str(), data.size());
-        SHA256_Final(hash, &sha256);
-        
+        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        const EVP_MD* md = EVP_sha256();
+        unsigned char hash[EVP_MAX_MD_SIZE];
+        unsigned int hash_len = 0;
+
+        EVP_DigestInit_ex(ctx, md, nullptr);
+        EVP_DigestUpdate(ctx, data.c_str(), data.size());
+        EVP_DigestFinal_ex(ctx, hash, &hash_len);
+        EVP_MD_CTX_free(ctx);
+
         std::stringstream ss;
-        for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-            ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+        for (unsigned int i = 0; i < hash_len; i++) {
+            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
         }
         return ss.str();
     }
@@ -269,7 +285,7 @@ public:
                     "SELECT * FROM contracts ORDER BY timestamp ASC"
                 );
                 
-                for (size_t i = 1; i < r.size(); i++) {
+                for (pqxx::result::size_type i = 1; i < r.size(); i++) {
                     std::string prev_hash = r[i-1]["hash"].as<std::string>();
                     std::string current_prev = r[i]["previous_hash"].as<std::string>();
                     
